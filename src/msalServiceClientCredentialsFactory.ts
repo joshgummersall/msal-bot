@@ -1,19 +1,14 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { MsalAppCredentials } from "./msalAppCredentials";
 import { ServiceClientCredentials } from "@azure/ms-rest-js";
 
 import {
   AuthenticationConstants,
-  MicrosoftAppCredentials,
   ServiceClientCredentialsFactory,
 } from "botframework-connector";
 
-/**
- * An implementation of ServiceClientCredentialsFactory that generates MsalAppCredentials
- */
+// Derived from
+// https://github.com/microsoft/botbuilder-js/blob/jpg/msal/libraries/botframework-connector/src/auth/msalServiceClientCredentialsFactory.ts
 export class MsalServiceClientCredentialsFactory
   implements ServiceClientCredentialsFactory {
   constructor(

@@ -2,9 +2,8 @@ import { AppCredentials } from "botframework-connector";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { TokenResponse } from "adal-node";
 
-/**
- * An implementation of AppCredentials that uses @azure/msal-node to fetch tokens.
- */
+// Derived from
+// https://github.com/microsoft/botbuilder-js/blob/jpg/msal/libraries/botframework-connector/src/auth/msalAppCredentials.ts
 export class MsalAppCredentials extends AppCredentials {
   constructor(
     private readonly clientApplication: ConfidentialClientApplication,

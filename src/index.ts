@@ -1,7 +1,13 @@
 require("dotenv").config();
 
+import axios from "axios";
 import restify from "restify";
-import { CallerIdConstants, CloudAdapter } from "botbuilder";
+import {
+  Activity,
+  CallerIdConstants,
+  CloudAdapter,
+  Response,
+} from "botbuilder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { EchoBot } from "./bot";
 import { MsalServiceClientCredentialsFactory } from "./msalServiceClientCredentialsFactory";
@@ -50,8 +56,27 @@ const botFrameworkAuthentication = BotFrameworkAuthenticationFactory.create(
     clientApplication
   ),
   new AuthenticationConfiguration(),
-  undefined,
-  undefined
+  async (input, init) => {
+    const response = await axios.post(input, JSON.parse(init.body), {
+      headers: init.headers,
+      proxy: {
+        host: "localhost",
+        port: 8080,
+      },
+      validateStatus: () => true,
+    });
+
+    return ({
+      status: response.status,
+      json: async () => response.data,
+    } as any) as Response;
+  },
+  {
+    proxySettings: {
+      host: "localhost",
+      port: 8080,
+    },
+  }
 );
 
 const adapter = new CloudAdapter(botFrameworkAuthentication);

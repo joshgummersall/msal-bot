@@ -1,0 +1,8 @@
+{
+  "extends": "@tsconfig/node14",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "lib",
+    "rootDir": "src"
+  }
+}

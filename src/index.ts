@@ -1,13 +1,18 @@
 require("dotenv").config();
 
+import { JwtTokenExtractor } from 'botframework-connector/lib/auth/jwtTokenExtractor';
+import { ProxyOpenIdMetadata } from './proxyOpenIdMetadata';
+import { memoize } from 'lodash';
+
+(JwtTokenExtractor as any).getOrAddOpenIdMetadata = memoize((url: string) =>
+  new ProxyOpenIdMetadata(url, {
+    host: 'localhost',
+    port: 8080
+  }));
+
 import axios from "axios";
 import restify from "restify";
-import {
-  Activity,
-  CallerIdConstants,
-  CloudAdapter,
-  Response,
-} from "botbuilder";
+import { CallerIdConstants, CloudAdapter, Response } from "botbuilder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { EchoBot } from "./bot";
 import { MsalServiceClientCredentialsFactory } from "./msalServiceClientCredentialsFactory";
